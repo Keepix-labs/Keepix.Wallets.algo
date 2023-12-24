@@ -25,6 +25,8 @@ class Wallet {
     // returns like 1.01 (Always in readable value)
     getTokenBalance: (tokenAddress: string, walletAddress?: string) => Promise<string>;
 
+    getTokenInformation(tokenAddress: string) => Promise<any>;
+
     // amount is always like 1.20 ALGO
     estimateCostSendCoinTo: (receiverAddress: string, amount: string) => Promise<{ success: boolean, description: string }>;
     estimateCostSendTokenTo: (tokenAddress: string, receiverAddress: string, amount: string) => Promise<{ success: boolean, description: string }>;

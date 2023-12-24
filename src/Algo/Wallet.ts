@@ -113,6 +113,23 @@ export class Wallet {
     return this.wallet
   }
 
+  public async getTokenInformation(tokenAddress: string) {
+    try {
+      const assetInfo = await this.client
+        .getAssetByID(Number(tokenAddress))
+        .do()
+
+      return {
+        name: assetInfo?.params?.name,
+        symbol: assetInfo?.params?.['unit-name'],
+        decimals: assetInfo?.params?.decimals,
+      }
+    } catch (err) {
+      console.log(err)
+      return undefined
+    }
+  }
+
   // always display the balance in 0 decimals like 1.01 ALGO
   public async getCoinBalance(walletAddress?: string) {
     try {
@@ -132,12 +149,14 @@ export class Wallet {
       const assetInfo = await this.client
         .getAssetByID(Number(tokenAddress))
         .do()
+
       const accInfo = await this.client
         .accountInformation(walletAddress ?? this.wallet.addr)
         .do()
       const asset = accInfo?.assets?.find(
         (item: any) => item?.['asset-id'] === Number(tokenAddress),
       )
+
       return format(
         0,
         assetInfo?.params?.decimals ?? 0,
