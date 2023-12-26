@@ -53,6 +53,20 @@ describe('basic wallet', () => {
     expect(wallet.getMnemonic()).toBeDefined()
   })
 
+  it('can getTokenInformation', async () => {
+    const wallet = new Wallet({
+      password: 'toto',
+      type: 'algo',
+      rpc: 'https://testnet-api.algonode.cloud',
+    })
+
+    expect(await wallet.getTokenInformation('37074699')).toEqual({
+      name: 'USDC',
+      symbol: 'USDC',
+      decimals: 6,
+    })
+  })
+
   it('can getBalance', async () => {
     const wallet = new Wallet({
       password: 'toto',
